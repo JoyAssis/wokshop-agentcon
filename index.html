@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pokédex</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: sans-serif;
+      background: #f0f0f0;
+      padding: 24px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 24px;
+      font-size: 2rem;
+      color: #e3350d;
+    }
+
+    #search {
+      display: block;
+      margin: 0 auto 24px;
+      padding: 10px 16px;
+      width: 320px;
+      max-width: 100%;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    #grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    }
+
+    .card img {
+      width: 96px;
+      height: 96px;
+      image-rendering: pixelated;
+    }
+
+    .card .name {
+      text-transform: capitalize;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    .card .id {
+      color: #999;
+      font-size: 0.8rem;
+    }
+
+    .types {
+      display: flex;
+      gap: 4px;
+      justify-content: center;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+
+    .type-badge {
+      padding: 2px 8px;
+      border-radius: 99px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: white;
+      text-transform: capitalize;
+    }
+
+    #load-more {
+      display: block;
+      margin: 32px auto 0;
+      padding: 12px 32px;
+      background: #e3350d;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    #load-more:hover { background: #c42d0b; }
+    #load-more:disabled { background: #ccc; cursor: default; }
+
+    #status {
+      text-align: center;
+      color: #666;
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Pokédex</h1>
+<input id="search" type="text" placeholder="Search Pokémon..." />
+<div id="grid"></div>
+<p id="status"></p>
+<button id="load-more">Load more</button>
+
+<script>
+  const TYPE_COLORS = {
+    fire: '#F08030', water: '#6890F0', grass: '#78C850', electric: '#F8D030',
+    ice: '#98D8D8', fighting: '#C03028', poison: '#A040A0', ground: '#E0C068',
+    flying: '#A890F0', psychic: '#F85888', bug: '#A8B820', rock: '#B8A038',
+    ghost: '#705898', dragon: '#7038F8', dark: '#705848', steel: '#B8B8D0',
+    fairy: '#EE99AC', normal: '#A8A878',
+  };
+
+  const BATCH = 40;
+  let offset = 0;
+  let allLoaded = [];
+  let searchQuery = '';
+
+  const grid = document.getElementById('grid');
+  const status = document.getElementById('status');
+  const loadBtn = document.getElementById('load-more');
+  const searchInput = document.getElementById('search');
+
+  async function fetchBatch() {
+    loadBtn.disabled = true;
+    status.textContent = 'Loading…';
+
+    const res = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${BATCH}&offset=${offset}`);
+    const data = await res.json();
+
+    const details = await Promise.all(
+      data.results.map(p => fetch(p.url).then(r => r.json()))
+    );
+
+    allLoaded.push(...details);
+    offset += BATCH;
+
+    renderVisible();
+
+    const remaining = data.count - offset;
+    status.textContent = `Showing ${allLoaded.length} of ${data.count} Pokémon`;
+    loadBtn.disabled = remaining <= 0;
+    if (remaining <= 0) loadBtn.style.display = 'none';
+  }
+
+  function renderVisible() {
+    const q = searchQuery.toLowerCase();
+    const visible = allLoaded.filter(p =>
+      p.name.includes(q) || String(p.id).includes(q)
+    );
+
+    grid.innerHTML = '';
+    for (const p of visible) {
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const img = p.sprites.other['official-artwork'].front_default
+        || p.sprites.front_default;
+
+      const typeBadges = p.types.map(t => {
+        const color = TYPE_COLORS[t.type.name] || '#888';
+        return `<span class="type-badge" style="background:${color}">${t.type.name}</span>`;
+      }).join('');
+
+      card.innerHTML = `
+        <img src="${img}" alt="${p.name}" loading="lazy" />
+        <div class="id">#${String(p.id).padStart(3, '0')}</div>
+        <div class="name">${p.name}</div>
+        <div class="types">${typeBadges}</div>
+      `;
+
+      grid.appendChild(card);
+    }
+  }
+
+  searchInput.addEventListener('input', e => {
+    searchQuery = e.target.value.trim();
+    renderVisible();
+  });
+
+  loadBtn.addEventListener('click', fetchBatch);
+
+  fetchBatch();
+</script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VS Code GitHub Copilot Agent Lab | Edição Pokédex</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="light-theme.css">
+    <script src="theme-toggle.js"></script>
+</head>
+<body>
+    <div style="position:fixed;top:1rem;right:1rem;z-index:1000;display:flex;gap:0.5rem;align-items:center;">
+        <button class="theme-toggle" onclick="toggleTheme()">☀️ Light</button>
+    </div>
+    <div class="container">
+        <section class="hero">
+            <span class="hero-badge">🚀 Next.js 15 + TypeScript + Tailwind CSS</span>
+            <h1>VS Code GitHub Copilot Agent Lab</h1>
+            <p class="hero-subtitle">
+                Adicione funcionalidades a uma Pokédex enquanto domina o Modo Agente (Agent Mode) do GitHub Copilot no VS Code.
+                Aprenda engenharia de contexto, agentes customizados e fluxos de desenvolvimento orientados por IA.
+            </p>
+            <div class="hero-cta">
+                <a href="step.html?step=00-overview" class="btn btn-primary">🚀 Iniciar Workshop</a>
+                <a href="https://github.com/cyz/devdays-pokedex" class="btn btn-secondary">📦 Repositório GitHub</a>
+            </div>
+
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value">~1hr</div>
+                    <div class="stat-label">Duração</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">4</div>
+                    <div class="stat-label">Partes</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">8</div>
+                    <div class="stat-label">Checkpoints</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <h2 class="section-title">O Que Você Vai Aprender</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Engenharia de Contexto</h3>
+                    <p>Ensine a IA sobre seu código-fonte com diretrizes e instruções de ambiente, tornando as sugestões do Copilot de altíssima precisão.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>Primitivas do Agente</h3>
+                    <p>Aproveite agentes em segundo plano, nuvem e fluxos customizados para acelerar imensamente sua velocidade de desenvolvimento.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Desenvolvimento UI-First</h3>
+                    <p>Deixe a IA iterar rapidamente na interface do app enquanto você guia as decisões de design criativo de forma direta.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧪</div>
+                    <h3>Desenvolvimento com TDD</h3>
+                    <p>Desenvolva recursos ultra confiáveis usando fluxos de TDD integrados com o clássico ciclo Vermelho-Verde-Refatoração.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="workshop">
+            <h2 class="section-title">Partes do Workshop</h2>
+            <div class="parts-list">
+                <a href="step.html?step=01-setup" class="part-card">
+                    <div class="part-number">01</div>
+                    <div class="part-content">
+                        <h3>Configuração e Engenharia de Contexto</h3>
+                        <p>Clone, execute e ensine a IA sobre a base de código da sua Pokédex</p>
+                    </div>
+                    <span class="part-time">15 min</span>
+                </a>
+                <a href="step.html?step=02-favorites" class="part-card">
+                    <div class="part-number">02</div>
+                    <div class="part-content">
+                        <h3>Favoritos e Descoberta</h3>
+                        <p>Adicione favoritos usando Modo de Planejamento (Plan Mode), persistência no localStorage e atualização de agentes</p>
+                    </div>
+                    <span class="part-time">15 min</span>
+                </a>
+                <a href="step.html?step=03-team-builder" class="part-card">
+                    <div class="part-number">03</div>
+                    <div class="part-content">
+                        <h3>Montador de Equipes (Team Builder)</h3>
+                        <p>Desenvolva um analisador e construtor de equipes usando orquestração de múltiplos agentes lógicos de TDD</p>
+                    </div>
+                    <span class="part-time">25 min</span>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <section class="prereqs">
+        <div class="container">
+            <h2 class="section-title">Pré-requisitos</h2>
+            <div class="prereqs-grid">
+                <div class="prereq-item">
+                    <span class="prereq-check">✓</span>
+                    <span>VS Code v1.120+</span>
+                </div>
+                <div class="prereq-item">
+                    <span class="prereq-check">✓</span>
+                    <span>GitHub Copilot</span>
+                </div>
+                <div class="prereq-item">
+                    <span class="prereq-check">✓</span>
+                    <span>Node.js 22+</span>
+                </div>
+                <div class="prereq-item">
+                    <span class="prereq-check">✓</span>
+                    <span>Git instalado</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <footer>
+            <div class="footer-links">
+                <a href="https://github.com/cyz/devdays-pokedex">Repositório no GitHub</a>
+                <a href="https://www.youtube.com/code">VS Code no YouTube</a>
+                <a href="https://code.visualstudio.com/docs/copilot/overview">Doc do Copilot</a>
+                <a href="https://github.com/github/awesome-copilot">Awesome Copilot</a>
+            </div>
+            <p class="footer-credit">Construído com 💜 pelo time do VS Code</p>
+        </footer>
+    </div>
+    <script>
+        async function loadCurrentVsCodeVersion() {
+            const versionElement = document.getElementById('current-vscode-version');
+            if (!versionElement) return;
+
+            try {
+                const response = await fetch('https://update.code.visualstudio.com/api/releases/stable');
+                if (!response.ok) throw new Error('Failed to fetch VS Code releases');
+
+                const releases = await response.json();
+                if (Array.isArray(releases) && releases.length > 0) {
+                    versionElement.textContent = `v${releases[0]}`;
+                    return;
+                }
+            } catch {
+                // Keep a sensible fallback value when the releases endpoint is unavailable.
+            }
+
+            versionElement.textContent = 'latest stable';
+        }
+
+        loadCurrentVsCodeVersion();
+    </script>
+</body>
+</html>
