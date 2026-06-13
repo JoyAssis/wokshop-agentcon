@@ -5,9 +5,22 @@ interface HeaderProps {
   onSearch: (value: string) => void;
   loadedCount: number;
   totalCount: number;
+  favoriteCount: number;
+  showOnlyFavorites: boolean;
+  onFavoritesFilterToggle: () => void;
+  onRandomSelect: () => void;
 }
 
-export default function Header({ search, onSearch, loadedCount, totalCount }: HeaderProps) {
+export default function Header({
+  search,
+  onSearch,
+  loadedCount,
+  totalCount,
+  favoriteCount,
+  showOnlyFavorites,
+  onFavoritesFilterToggle,
+  onRandomSelect,
+}: HeaderProps) {
   return (
     <header className="flex items-center gap-3 border-b border-[#1e2038] bg-[#0a0b15] px-4 py-3">
       <div className="flex min-w-0 items-center gap-2">
@@ -34,9 +47,31 @@ export default function Header({ search, onSearch, loadedCount, totalCount }: He
         </div>
       </div>
 
-      <div className="shrink-0 text-right">
-        <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">Loaded</p>
-        <p className="text-sm font-bold text-slate-200">{loadedCount} / {totalCount}</p>
+      <div className="shrink-0 flex items-center gap-2">
+        <button
+          onClick={onRandomSelect}
+          title="Pick a random Pokémon"
+          className="p-1.5 rounded-lg transition-colors bg-[#1a1b2e] border border-[#2a2d4a] text-slate-400 hover:border-blue-500 hover:text-blue-400"
+        >
+          <span className="text-base">🎲</span>
+        </button>
+        <button
+          onClick={onFavoritesFilterToggle}
+          title={showOnlyFavorites ? 'Show all' : 'Show favorites'}
+          className={`p-1.5 rounded-lg transition-colors ${
+            showOnlyFavorites
+              ? 'bg-red-500/20 border border-red-500/50 text-red-400'
+              : 'bg-[#1a1b2e] border border-[#2a2d4a] text-slate-400 hover:text-red-400'
+          }`}
+        >
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+          </svg>
+        </button>
+        <div className="text-right border-l border-[#2a2d4a] pl-2">
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">Loaded</p>
+          <p className="text-sm font-bold text-slate-200">{loadedCount} / {totalCount}</p>
+        </div>
       </div>
     </header>
   );
